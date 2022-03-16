@@ -4,6 +4,9 @@ import Flutter
 import UIKit
 
 public class SwiftFlutterWebAuthPlugin: NSObject, FlutterPlugin {
+    
+    private var sessionToKeepAlive: Any? = nil // if we do not keep the session alive, it will get closed immediately while showing the dialog
+    
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "flutter_web_auth", binaryMessenger: registrar.messenger())
         let instance = SwiftFlutterWebAuthPlugin()
@@ -18,8 +21,6 @@ public class SwiftFlutterWebAuthPlugin: NSObject, FlutterPlugin {
            let callbackURLScheme = arguments["callbackUrlScheme"] as? String,
            let preferEphemeral = arguments["preferEphemeral"] as? Bool
         {
-
-            var sessionToKeepAlive: Any? = nil // if we do not keep the session alive, it will get closed immediately while showing the dialog
             let completionHandler = { (url: URL?, err: Error?) in
                 sessionToKeepAlive = nil
 
